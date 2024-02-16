@@ -4,8 +4,8 @@ module.exports = {
   // Get all Thoughts
   async getThoughts(req, res) {
     try {
-      const Thoughts = await Thought.find();
-      res.json(Thoughts);
+      const thoughts = await Thought.find();
+      res.json(thoughts);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -13,15 +13,17 @@ module.exports = {
   // Get a Thought
   async getSingleThought(req, res) {
     try {
-      const Thought = await Thought.findOne({
+      const foundThought = await Thought.findOne({
         _id: req.params.thoughtId,
-      }).populate("Users");
+      });
+      // .populate("users") will replace the ObjectIDs in the users array with the actual user documents referenced by those IDs.
+      //         .populate("Users");
 
-      if (!Thought) {
+      if (!foundThought) {
         return res.status(404).json({ message: "No Thought with that ID" });
       }
 
-      res.json(Thought);
+      res.json(foundThought);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -29,8 +31,8 @@ module.exports = {
   // Create a Thought
   async createThought(req, res) {
     try {
-      const Thought = await Thought.create(req.body);
-      res.json(Thought);
+      const createdThought = await Thought.create(req.body);
+      res.json(createdThought);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -39,34 +41,33 @@ module.exports = {
   // Delete a Thought
   async deleteThought(req, res) {
     try {
-      const Thought = await Thought.findOneAndDelete({
+      const foundThought = await Thought.findOneAndDelete({
         _id: req.params.thoughtId,
       });
 
-      if (!Thought) {
+      if (!foundThought) {
         res.status(404).json({ message: "No Thought with that ID" });
       }
-
-      await User.deleteMany({ _id: { $in: Thought.Users } });
-      res.json({ message: "Thought and Users deleted!" });
+      res.json({ message: "Thought deleted!" });
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   },
   // Update a Thought
   async updateThought(req, res) {
     try {
-      const Thought = await Thought.findOneAndUpdate(
+      const foundThought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
         { $set: req.body },
         { runValidators: true, new: true }
       );
 
-      if (!Thought) {
+      if (!foundThought) {
         res.status(404).json({ message: "No Thought with this id!" });
       }
 
-      res.json(Thought);
+      res.json(foundThought);
     } catch (err) {
       res.status(500).json(err);
     }

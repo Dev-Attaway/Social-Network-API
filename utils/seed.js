@@ -1,6 +1,6 @@
 const connection = require("../config/connection");
 const { Thought, User } = require("../models");
-const { getRandomName, getRandomThoughts } = require("./data");
+const { generateThoughts, generateUsers } = require("./data");
 
 connection.on("error", (err) => err);
 
@@ -22,31 +22,30 @@ connection.once("open", async () => {
     await connection.dropCollection("users");
   }
 
-  // Create empty array to hold the users
-  const users = [];
+  // We have created this dummy data from data.js
+  // these functions return a array of generated users and generated thoughts
+  // 5 determines how many random thoughts will be created
+  const users = generateUsers();
+  const thoughts = generateThoughts(5);
 
-  // Loop 20 times -- add users to the users array
-  for (let i = 0; i < 20; i++) {
-    const username = getRandomName();
-    const first = username.split(" ")[0];
-    const email = first + `@example.com`;
+  // we must now create the mongoo DB items
+  const createdUsers = await User.insertMany(users);
 
-    users.push({
-      username,
-      email,
+  // Create thoughts
+  const createdThoughts = await Thought.insertMany(thoughts);
+  for (let i = 0; i < createdUsers.length; i++) {
+    const user = createdUsers[i];
+    // Filter thoughts that belong to this user
+    const userThoughts = createdThoughts.filter(
+      (thought) => thought.username === user.username
+    );
+    // Get thought ids
+    const thoughtIds = userThoughts.map((thought) => thought._id);
+    // Update user with thought ids
+    await User.findByIdAndUpdate(user._id, {
+      $push: { thoughts: { $each: thoughtIds } },
     });
   }
-
-  // Add users to the collection and await the results
-  const userData = await User.insertMany(users);
-  const reactions = userData.map(({ username }) => ({ username }));
-
-  // Add thoughts to the collection and await the results
-  await Thought.create({
-    thoughtText: "test",
-    username: "test user",
-    reactions: reactions,
-  });
 
   // Log out the seed data to indicate what should appear in the database
   console.table(users);

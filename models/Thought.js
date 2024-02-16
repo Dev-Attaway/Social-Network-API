@@ -8,11 +8,10 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
       minlength: [3, "Username must be at least 3 characters long"], // Minimum length of 3 characters
-      maxlength: [20, "Username cannot exceed 20 characters"], // Maximum length of 20 characters
+      maxlength: [280, "Username cannot exceed 20 characters"], // Maximum length of 20 characters
     },
     username: {
       type: String,
-      unique: true,
       required: true,
       trim: true,
     },

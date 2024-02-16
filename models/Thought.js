@@ -30,6 +30,13 @@ const thoughtSchema = new Schema(
   }
 );
 
+thoughtSchema
+  .virtual("friendCount")
+  // Getter
+  .get(function () {
+    return `${this.reactions.length}`;
+  });
+
 const Thought = model("thought", thoughtSchema);
 
 module.exports = Thought;

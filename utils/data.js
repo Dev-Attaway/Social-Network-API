@@ -106,10 +106,51 @@ const getRandomName = () =>
 const getRandomThoughts = (int) => {
   const results = [];
   for (let i = 0; i < int; i++) {
-    results.push({});
+    let item = getRandomArrItem(appDescriptions);
+    results.push({ item });
   }
   return results;
 };
+const generateUsers = () => {
+  // Create empty array to hold the users
+  const users = [];
+
+  // Loop 20 times -- add users to the users array
+  for (let i = 0; i < 19; i++) {
+    const username = getRandomName();
+    const first = username.split(" ")[0];
+    const email =
+      first + Math.floor(Math.random() * users.length) + `@example.com`;
+
+    users.push({
+      username,
+      email,
+    });
+  }
+  const username = "user1";
+  const email =
+    username + Math.floor(Math.random() * users.length) + `@example.com`;
+
+  users.push({
+    username,
+    email,
+  });
+  return users;
+};
+const generateThoughts = (int) => {
+  const thoughts = [];
+  for (let i = 0; i < int; i++) {
+    const username = getRandomName();
+    thoughts.push({
+      username: "user1",
+      thoughtText: "testing this thought",
+    });
+  }
+  return thoughts;
+};
 
 // Export the functions for use in seed.js
-module.exports = { getRandomName, getRandomThoughts };
+module.exports = {
+  generateUsers,
+  generateThoughts,
+};

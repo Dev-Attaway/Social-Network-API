@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const reactionSchema = require("./Reaction");
+const reactionSchema = require("./Reaction"); // Import the Reaction schema
 
 // Schema to create a course model
 const thoughtSchema = new Schema(
@@ -17,14 +17,27 @@ const thoughtSchema = new Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now,
+      default: Date.now, // Set default value to the current timestamp
       required: true,
+      // Define a getter method to format the timestamp on query
+      get: function (value) {
+        // Use toLocaleString() with appropriate options for the desired format
+        return new Date(value).toLocaleString("en-US", {
+          month: "long",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZoneName: "short",
+        });
+      },
     },
     reactions: [reactionSchema],
   },
   {
     toJSON: {
       virtuals: true,
+      getters: true, // Ensure that getters are included when converting to JSON
     },
   }
 );
@@ -34,6 +47,11 @@ thoughtSchema
   // Getter
   .get(function () {
     return `${this.reactions.length}`;
+  });
+thoughtSchema
+  // Getter
+  .get(function () {
+    return `${this.createdAt.toLocaleDateString()}`;
   });
 
 const Thought = model("thought", thoughtSchema);

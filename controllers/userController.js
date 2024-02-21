@@ -1,5 +1,4 @@
-const { ObjectId } = require("mongoose").Types;
-const { User, Thought } = require("../models");
+const { User } = require("../models");
 
 module.exports = {
   // Get all Users
@@ -9,6 +8,44 @@ module.exports = {
       res.json(users);
     } catch (err) {
       res.status(500).json(err);
+    }
+  },
+
+  async addFriend(req, res) {
+    const { userId, friendId } = req.params;
+    try {
+      const foundUser = await User.findById(userId);
+      if (!foundUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Add friendId to the user's list of friends
+      foundUser.friends.push(friendId);
+      await foundUser.save();
+
+      res.json({ message: "Friend added successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  },
+  async removeFriend(req, res) {
+    const { userId, friendId } = req.params;
+
+    try {
+      const foundUser = await User.findById(userId);
+      if (!foundUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Remove friendId from the user's list of friends
+      foundUser.friends = foundUser.friends.filter((_id) => _id !== friendId);
+      await foundUser.save();
+
+      res.json({ message: "Friend removed successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   },
 

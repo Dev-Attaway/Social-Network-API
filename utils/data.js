@@ -102,47 +102,30 @@ const getRandomArrItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const getRandomName = () =>
   `${getRandomArrItem(names)} ${getRandomArrItem(names)}`;
 
-// Function to generate random assignments that we can add to student object.
-const getRandomThoughts = (int) => {
-  const results = [];
-  for (let i = 0; i < int; i++) {
-    let item = getRandomArrItem(appDescriptions);
-    results.push({ item });
-  }
-  return results;
-};
-const generateUsers = () => {
+const generateUsers = (int) => {
   // Create empty array to hold the users
   const users = [];
 
   // Loop 20 times -- add users to the users array
-  for (let i = 0; i < 19; i++) {
+  for (let i = 0; i <= int; i++) {
     const username = getRandomName();
     const first = username.split(" ")[0];
     const email =
       first + Math.floor(Math.random() * users.length) + `@example.com`;
 
     users.push({
-      username,
+      username: "user" + i,
       email,
     });
   }
-  const username = "user1";
-  const email =
-    username + Math.floor(Math.random() * users.length) + `@example.com`;
 
-  users.push({
-    username,
-    email,
-  });
   return users;
 };
 const generateThoughts = (int) => {
   const thoughts = [];
   for (let i = 0; i < int; i++) {
-    const username = getRandomName();
     thoughts.push({
-      username: "user1",
+      username: "user" + i,
       thoughtText: "testing this thought",
     });
   }

@@ -19,7 +19,7 @@ const thoughtSchema = new Schema(
       type: Date,
       default: Date.now, // Set default value to the current timestamp
       required: true,
-      // Define a getter method to format the timestamp on query
+      // a getter method to format the timestamp on query
       get: function (value) {
         // Use toLocaleString() with appropriate options for the desired format
         return new Date(value).toLocaleString("en-US", {
@@ -32,6 +32,7 @@ const thoughtSchema = new Schema(
         });
       },
     },
+    // the reactions field as an array of reactionSchema
     reactions: [reactionSchema],
   },
   {
@@ -39,19 +40,15 @@ const thoughtSchema = new Schema(
       virtuals: true,
       getters: true, // Ensure that getters are included when converting to JSON
     },
+    id: false,
   }
 );
 
 thoughtSchema
-  .virtual("friendCount")
+  .virtual("reactionCount")
   // Getter
   .get(function () {
     return `${this.reactions.length}`;
-  });
-thoughtSchema
-  // Getter
-  .get(function () {
-    return `${this.createdAt.toLocaleDateString()}`;
   });
 
 const Thought = model("thought", thoughtSchema);

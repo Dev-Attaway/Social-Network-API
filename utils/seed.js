@@ -24,9 +24,9 @@ connection.once("open", async () => {
 
   // We have created this dummy data from data.js
   // these functions return a array of generated users and generated thoughts
-  // 5 determines how many random thoughts will be created
-  const users = generateUsers();
-  const thoughts = generateThoughts(5);
+  // determines how many random thoughts will be created
+  const users = generateUsers(20);
+  const thoughts = generateThoughts(20);
 
   // we must now create the mongoo DB items
   const createdUsers = await User.insertMany(users);
@@ -35,13 +35,18 @@ connection.once("open", async () => {
   const createdThoughts = await Thought.insertMany(thoughts);
   for (let i = 0; i < createdUsers.length; i++) {
     const user = createdUsers[i];
+
     // Filter thoughts that belong to this user
     const userThoughts = createdThoughts.filter(
       (thought) => thought.username === user.username
     );
-    // Get thought ids
+    // iterate over each thought object in the userThoughts array
+    // map thoughts onto userThoughts by their _id
+    // thought._id accesses the _id property of each thought object.
+    // map() method returns a new array containing only the _id properties of the thought objects, which are assigned to the variable thoughtIds.
     const thoughtIds = userThoughts.map((thought) => thought._id);
-    // Update user with thought ids
+
+    // pushes multiple items into the thoughts array, the $each modifier allows pushing multiple values (thoughtIds) at once
     await User.findByIdAndUpdate(user._id, {
       $push: { thoughts: { $each: thoughtIds } },
     });

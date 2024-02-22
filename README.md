@@ -4,7 +4,7 @@
 
   NoSQL Social-Network-BackEnd API operates as a bare-bones model of a social media site and as an educational skeleton. Modeling the MVC paradigm, excluding the view of MVC, and utilizing technologies such as
   Mongoose and Node: NoSQL Social-Network-BackEnd API seeks to establish an accessible skeleton for future projects relating to social media. As well as educate Junior devs on the mechanics
-  of the back end and Mongoose databases. Furthermore, this project also demonstrates how Mongoose virtuals are implemented.
+  of the back end and Mongoose databases. Furthermore, this project also demonstrates how Mongoose virtualss are implemented.
   
 ## Table of Contents
 
@@ -15,69 +15,44 @@
 * [License](#license)
 * [Contributing](#contributing)
 * [Questions](#questions)
-* [Heroku](#heroku)
 
 ## Installation
 
   To install the required dependencies, run the following command:
   > npm i
 
-  To initiate Tailwind run the following command:
+  To iniatilze the server run the following command:
   > npm run tailwind
 
 ## Usage
 
 ### Features
 
-- Login/Logout Components
-* Personal Profile
-* Blog creation
-* Leave comments on created blogs
-* Update past blogs
-* Delete past blogs
-* View portal to all blogs created by other users
+* Login/Logout Components
+* Moogoose models for Thoughts, Users, and a schema for the Reaction
+* CRUD routes for the Thoughts, Users, and Reactions
+* Leave Reactions on created Thoughts
+* Created Users can add other created Uers to their Friends list virtual schema property friendCount
 
 ### Functionality
-
-* WHEN a user visits the site for the first time
-* THEN the homepage presents itself, including existing blogs if any have been created, navigation links for the homepage and the dashboard, and the option to log in
-* WHEN a user clicks on the homepage option
-* THEN they are taken to the homepage
-* WHEN a user clicks on any other links in the navigation
-* THEN they are prompted to either sign up or sign in
-* WHEN a user chooses to sign up
-* THEN they are prompted to create a username and password
-* WHEN a user clicks on the sign-up button
-* THEN their user credentials are saved, and they are logged into the site
-* WHEN a user revisits the site at a later time and chooses to sign in
-* THEN they are prompted to enter their username and password
-* WHEN a user is signed in to the site
-* THEN they see navigation links for the homepage, the dashboard, and the option to log out
-* WHEN a user clicks on the homepage option in the navigation
-* THEN they are taken to the homepage and presented with existing blogs that include the blog title and the date created
-* WHEN a user clicks on an existing blog blog
-* THEN they are presented with the blog title, contents, blog creator’s username, and date created for that blog and have the option to leave a comment
-* WHEN a user enters a comment and clicks on the submit button while signed in
-* THEN the comment is saved, and the blog is updated to display the comment, the comment creator’s username, and the date created
-* WHEN a user clicks on the dashboard option in the navigation
-* THEN they are taken to the dashboard and presented with any blogs they have already created and the option to add a new blog blog
-* WHEN a user clicks on the button to add a new blog blog
-* THEN they are prompted to enter both a title and content for their blog blog
-* WHEN a user clicks on the button to create a new blog blog
-* THEN the title and contents of their blog are saved, and they are taken back to an updated dashboard with their new blog blog
-* WHEN a user clicks on one of their existing in the dashboard
-* THEN they can delete or update their blog and be taken back to an updated dashboard
-* WHEN a user clicks on the logout option in the navigation
-* THEN they are signed out of the site
+* GIVEN a social network API
+* WHEN I enter the command to invoke the application
+* THEN my server is started and the Mongoose models are synced to the MongoDB database
+* WHEN I open API GET routes in Insomnia for users and thoughts
+* THEN the data for each of these routes is displayed in a formatted JSON
+* WHEN I test API POST, PUT, and DELETE routes in Insomnia
+* THEN I am able to successfully create, update, and delete users and thoughts in my database
+* WHEN I test API POST and DELETE routes in Insomnia
+* THEN I am able to successfully create and delete reactions to thoughts and add and remove friends to a user’s friend list
 
 ## Technology Used
 
-- [Bcrypt](https://jquery.com/)
 * [Express](https://expressjs.com/)
-* [Mysql2](https://www.npmjs.com/package/mysql2)
-* [Sequalize](https://sequelize.org/)
+* [mongoosejs](https://mongoosejs.com/)
+* [mongoosejs](https://mongoosejs.com/)
 * [Nodemon](https://nodemon.io/)
-* [Tailwind CSS](https://tailwindcss.com/)
+* [insomnia](https://insomnia.rest/)
+
 
 ## License
 
@@ -92,6 +67,3 @@
 
  If you have any questions or issues, please get in touch with me at <attaway.code@gmail.com>. You can also find more of my work at <https://github.com/Dev-attaway>.
 
-## Heroku
-
-  <https://dev-attaway-mvc-hbs-blog-f80032cd86ff.herokuapp.com/>

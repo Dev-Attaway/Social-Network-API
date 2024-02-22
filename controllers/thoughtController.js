@@ -1,4 +1,4 @@
-const { Thought } = require("../models");
+const { Thought, User } = require("../models");
 
 module.exports = {
   // Get all Thoughts
@@ -85,9 +85,6 @@ module.exports = {
       const foundThought = await Thought.findOne({
         _id: req.params.thoughtId,
       });
-      // .populate("users") will replace the ObjectIDs in the users array with the actual user documents referenced by those IDs.
-      //         .populate("Users");
-
       if (!foundThought) {
         return res.status(404).json({ message: "No Thought with that ID" });
       }
@@ -100,11 +97,39 @@ module.exports = {
   // Create a Thought
   async createThought(req, res) {
     try {
-      const createdThought = await Thought.create(req.body);
-      res.json(createdThought);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json(err);
+      // Retrieve data from the request body
+      const { userId, username, thoughtText } = req.body;
+
+      // Validate userId, username, and thoughtText
+      if (!userId || !username || !thoughtText) {
+        return res
+          .status(400)
+          .json({ error: "userId, username, and thoughtText are required" });
+      }
+
+      // Check if the user exists
+      const foundUser = await User.findById(userId);
+      if (!foundUser) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      // Create a new thought
+      const newThought = new Thought({ thoughtText, username });
+
+      // Save the thought to the database
+      await newThought.save();
+
+      // Update the associated user's thoughts array field
+      foundUser.thoughts.push(newThought._id);
+      await foundUser.save();
+
+      // Return a success response
+      return res
+        .status(201)
+        .json({ message: "Thought created successfully", thought: newThought });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Server error" });
     }
   },
   // Delete a Thought

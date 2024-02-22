@@ -1,27 +1,25 @@
 const { Schema, model } = require("mongoose");
-const reactionSchema = require("./Reaction"); // Import the Reaction schema
 
-// Schema to create a course model
-const thoughtSchema = new Schema(
+// Reaction Schema
+const reactionSchema = new Schema(
   {
-    thoughtText: {
+    reactionId: {
+      type: Schema.Types.ObjectId,
+    },
+    reactionBody: {
       type: String,
       required: true,
-      minlength: [3, "Username must be at least 3 characters long"], // Minimum length of 3 characters
-      maxlength: [280, "Username cannot exceed 20 characters"], // Maximum length of 20 characters
+      maxlength: 280,
+      default: "dummy comment",
     },
     username: {
       type: String,
       required: true,
-      trim: true,
     },
     createdAt: {
       type: Date,
-      default: Date.now, // Set default value to the current timestamp
-      required: true,
-      // a getter method to format the timestamp on query
+      default: Date.now,
       get: function (value) {
-        // Use toLocaleString() with appropriate options for the desired format
         return new Date(value).toLocaleString("en-US", {
           month: "long",
           day: "2-digit",
@@ -32,25 +30,60 @@ const thoughtSchema = new Schema(
         });
       },
     },
-    // the reactions field as an array of reactionSchema
-    reactions: [reactionSchema],
   },
   {
     toJSON: {
-      virtuals: true,
-      getters: true, // Ensure that getters are included when converting to JSON
+      getters: true,
     },
     id: false,
   }
 );
 
-thoughtSchema
-  .virtual("reactionCount")
-  // Getter
-  .get(function () {
-    return `${this.reactions.length}`;
-  });
+// Thought Schema
+const thoughtSchema = new Schema(
+  {
+    thoughtText: {
+      type: String,
+      required: true,
+      minlength: [3, "Thought must be at least 3 characters long"],
+      maxlength: [280, "Thought cannot exceed 280 characters"],
+    },
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: function (value) {
+        return new Date(value).toLocaleString("en-US", {
+          month: "long",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZoneName: "short",
+        });
+      },
+    },
+    // Reactions as subdocument schema
+    reactions: [reactionSchema],
+  },
+  {
+    toJSON: {
+      virtuals: true,
+      getters: true,
+    },
+    id: false,
+  }
+);
 
-const Thought = model("thought", thoughtSchema);
+// Virtual for reaction count
+thoughtSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
+});
+
+const Thought = model("Thought", thoughtSchema);
 
 module.exports = Thought;

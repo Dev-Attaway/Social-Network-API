@@ -15,6 +15,7 @@
 * [License](#license)
 * [Contributing](#contributing)
 * [Questions](#questions)
+* [Directory](#directory)
 
 ## Installation
 
@@ -70,3 +71,12 @@
 
  If you have any questions or issues, please get in touch with me at <attaway.code@gmail.com>. You can also find more of my work at <https://github.com/Dev-attaway>.
 
+ The source code for the NoSQL Social-Network-BackEnd API is organized within the following directories:
+
+## Directory
+* config/ - Contains configuration files for the application.
+* controllers/ - Includes controller files responsible for handling business logic.
+* models/ - Houses Mongoose models for Thoughts, Users, and other data entities.
+* routes/ - Contains route files defining API endpoints and their corresponding handlers.
+* utils/ - Provides utility functions and helper modules used throughout the application.
+* index.js - The main entry point of the application where the server is initialized and routes are configured.

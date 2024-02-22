@@ -1,6 +1,6 @@
 ## NoSQL Social-Network-BackEnd API
 
-
+https://github.com/Dev-Attaway/Social-Network-API/assets/145059598/c34b9ef0-26cb-4b90-a1de-3484a74b1a6a
 
 ## Description
 
@@ -38,14 +38,6 @@
 * Mongoose models for Thoughts, Users, and a schema for the Reaction
 * CRUD routes for the Thoughts, Users, and Reactions
 * Leave Reactions on created Thoughts
-
-https://github.com/Dev-Attaway/Social-Network-API/assets/145059598/c34b9ef0-26cb-4b90-a1de-3484a74b1a6a
-
-
-
-https://github.com/Dev-Attaway/Social-Network-API/assets/145059598/105be756-739b-4093-87c2-0da1ae401193
-
-
 * Created Users can add other created Uers to their Friends list virtual schema property friendCount
 
 ### Functionality

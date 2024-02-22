@@ -1,10 +1,10 @@
-## MVC/HBS powered Blog
+## NoSQL Social-Network-BackEnd API
 
 ## Description
 
-  MVC-tech-blog operates as a functional skeleton of a blog site and as an educational model. Modeling the MVC paradigm and utilizing technologies such as
-  Sequalize and Handlebars: MVC-tech-blog seeks to establish an accessible skeleton for future projects. As well as educate Junior devs on the mechanics
-  of both Back-end and Front-end operations. Furthermore, this project demonstrates how Sequalized Objects are related to each other (hasOne, hasMany, ...).
+  NoSQL Social-Network-BackEnd API operates as a bare-bones model of a social media site and as an educational skeleton. Modeling the MVC paradigm, excluding the view of MVC, and utilizing technologies such as
+  Mongoose and Node: NoSQL Social-Network-BackEnd API seeks to establish an accessible skeleton for future projects relating to social media. As well as educate Junior devs on the mechanics
+  of the back end and Mongoose databases. Furthermore, this project also demonstrates how Mongoose virtuals are implemented.
   
 ## Table of Contents
 
